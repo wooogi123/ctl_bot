@@ -1,3 +1,4 @@
+import os
 from discord.ext import commands
 from src import ctl
 
@@ -36,6 +37,6 @@ async def run_lecture(ctx, idx: int):
     await ctx.send(f'{int(ctl_bot.lectures[idx]["max_study_time"])}분 뒤에 완료됩니다')
     ctl_bot.run_lecture(idx)
 
-token = 'NzAwMjQwNDYyODQxMzgwOTI2.XpgD7A.Y4jxNrxAp5_sZJ3ycgOKOXJwwT4'
+token = os.environ['KDU_ctl_token']
 
 bot.run(token)
