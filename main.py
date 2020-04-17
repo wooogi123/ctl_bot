@@ -11,8 +11,14 @@ async def on_ready():
     print(f'We have logged in as {bot.user.name}')
 
 @bot.command()
-async def hello(ctx):
-    await ctx.send('Hello!')
+async def help(ctx):
+    await ctx.send('\
+        $login `ID` `PW`\n\
+        $show_rooms\n\
+        $enter_room `IDX`\n\
+        $show_lectures\n\
+        $run_lecture `IDX`\
+    ')
 
 @bot.command()
 async def login(ctx, id: str, pw: str):
