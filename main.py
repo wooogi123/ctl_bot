@@ -10,39 +10,40 @@ ctl_bot = ctl.CTL()
 async def on_ready():
     print(f'We have logged in as {bot.user.name}')
 
-@bot.command()
+@bot.event
 async def help(ctx):
     await ctx.send('\
         $login `ID` `PW`\n\
-        $show_rooms\n\
         $enter_room `IDX`\n\
-        $show_lectures\n\
         $run_lecture `IDX`\
     ')
 
 @bot.command()
 async def login(ctx, id: str, pw: str):
-    await ctx.send(f'{ctl_bot.login(id, pw)}')
-    for room in ctl_bot.rooms:
-        await ctx.send(f'{room}')
-
-@bot.command()
-async def show_rooms(ctx):
-    arr = ctl_bot.rooms
-    await ctx.send(f'{arr}')
+    s = '```'
+    flag = ctl_bot.login(id, pw)
+    if flag == '로그인 성공':
+        s += f'{flag}\n'
+        for idx, room in enumerate(ctl_bot.rooms):
+            s += f'{str(idx)}: {room[0]}\n'
+        s += '```'
+    else:
+        s += f'{flag}\n```'
+    await ctx.send(f'{s}')
 
 @bot.command()
 async def enter_room(ctx, idx: int):
-    await ctx.send(f'{ctl_bot.enter_room(idx)}')
-
-@bot.command()
-async def show_lectures(ctx):
-    arr = ctl_bot.lectures
-    await ctx.send(f'{arr}')
+    s = '```'
+    if ctl_bot.enter_room(idx):
+        lectures = ctl_bot.lectures
+        for idx, lec in enumerate(lectures):
+            s += f'{str(idx)}: {lec["max_study_time"]:.3f}분 / {lec["basic_time"]}분\n'
+        s += '```'
+    await ctx.send(f'{s}')
 
 @bot.command()
 async def run_lecture(ctx, idx: int):
-    await ctx.send(f'{int(ctl_bot.lectures[idx]["max_study_time"])}분 뒤에 완료됩니다')
+    await ctx.send(f'```{ctl_bot.lectures[idx]["max_study_time"]:.3f}분 뒤에 완료됩니다```')
     ctl_bot.run_lecture(idx)
 
 token = os.environ['KDU_ctl_token']

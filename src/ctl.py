@@ -79,9 +79,9 @@ class CTL:
                     'basic_time': basic_time,
                     'review': lecture['review'],
                     'study_able_status': '',
-                    'max_study_time': max_study_time
+                    'max_study_time': max_study_time + 1
                 })
-        return '강의를 불러왓습니다'
+        return True
 
     def run(self, state: dict):
         if (state['study_time'] < state['max_study_time']):
