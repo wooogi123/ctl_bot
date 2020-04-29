@@ -34,11 +34,14 @@ async def login(ctx, id: str, pw: str):
 @bot.command()
 async def enter_room(ctx, idx: int):
     s = '```'
-    if ctl_bot.enter_room(idx):
-        lectures = ctl_bot.lectures
+    ctl_bot.enter_room(idx)
+    lectures = ctl_bot.lectures
+    if len(lectures) > 0:
         for idx, lec in enumerate(lectures):
             s += f'{str(idx)}: {lec["max_study_time"]:.3f}분 / {lec["basic_time"]}분\n'
         s += '```'
+    else:
+        s += '모든 강의를 수강했습니다.```'
     await ctx.send(f'{s}')
 
 @bot.command()
