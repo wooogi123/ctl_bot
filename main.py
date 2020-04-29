@@ -23,6 +23,8 @@ async def help(ctx):
 @bot.command()
 async def login(ctx, id: str, pw: str):
     await ctx.send(f'{ctl_bot.login(id, pw)}')
+    for room in ctl_bot.rooms:
+        await ctx.send(f'{room}')
 
 @bot.command()
 async def show_rooms(ctx):
