@@ -20,29 +20,27 @@ async def help(ctx):
 
 @bot.command()
 async def login(ctx, id: str, pw: str):
-    s = '```'
+    s = ''
     flag = ctl_bot.login(id, pw)
     if flag == '로그인 성공':
         s += f'{flag}\n'
         for idx, room in enumerate(ctl_bot.rooms):
             s += f'{str(idx)}: {room[0]}\n'
-        s += '```'
     else:
-        s += f'{flag}\n```'
-    await ctx.send(f'{s}')
+        s += f'{flag}\n'
+    await ctx.send(f'```{s}```')
 
 @bot.command()
 async def enter_room(ctx, idx: int):
-    s = '```'
+    s = ''
     ctl_bot.enter_room(idx)
     lectures = ctl_bot.lectures
     if len(lectures) > 0:
         for idx, lec in enumerate(lectures):
             s += f'{str(idx)}: {lec["max_study_time"]:.3f}분 / {lec["basic_time"]}분\n'
-        s += '```'
     else:
-        s += '모든 강의를 수강했습니다.```'
-    await ctx.send(f'{s}')
+        s += '모든 강의를 수강했습니다.'
+    await ctx.send(f'```{s}```')
 
 @bot.command()
 async def run_lecture(ctx, idx: int):
